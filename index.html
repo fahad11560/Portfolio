@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mirza Fahad Baig — Flutter & AI Automation Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#151312;--text:#FFFFFF;--muted:#998F8F;--accent:#F46C38;--surface:rgba(255,255,255,.03);--border:rgba(255,255,255,.1);}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);width:292px;height:48px;
+    display:flex;align-items:center;justify-content:center;gap:18px;padding:0 20px;border-radius:16px;
+    background:rgba(21,19,18,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);z-index:100;}
+  nav a{font-size:12px;color:var(--muted);transition:color .2s;cursor:pointer;}
+  nav a:hover,nav a.active{color:var(--text);}
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:40px;padding-top:110px;align-items:start;}
+  aside{position:sticky;top:90px;display:flex;flex-direction:column;gap:20px;padding-bottom:40px;}
+  .avatar-wrap{position:relative;padding-top:26px;}
+  .avatar{width:100%;aspect-ratio:1/1.1;border-radius:16px;background:linear-gradient(150deg,var(--accent),#7a3013);
+    display:flex;align-items:center;justify-content:center;border:1px solid var(--border);position:relative;}
+  .avatar span{font-size:96px;font-weight:700;color:rgba(21,19,18,.35);}
+  .avatar-badge{position:absolute;left:24px;bottom:-18px;width:36px;height:36px;border-radius:50%;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;border:3px solid var(--bg);}
+  .avatar-badge svg{width:16px;height:16px;stroke:#151312;}
+  .id-card h1{font-size:24px;font-weight:600;margin:0 0 8px;}
+  .id-card p{font-size:14px;line-height:1.6;color:var(--muted);margin:0;}
+  .social-row{display:flex;gap:10px;margin-top:16px;}
+  .social-row a{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--accent);transition:.2s;}
+  .social-row a:hover{background:var(--accent);color:#151312;}
+  .social-row svg{width:16px;height:16px;}
+  main{min-width:0;}
+  #view{animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  @media(prefers-reduced-motion:reduce){#view{animation:none;}}
+  section{padding-top:100px;}
+  section:first-of-type{padding-top:0;}
+  h2.big{font-size:44px;font-weight:700;line-height:1.05;margin:0;letter-spacing:-.01em;}
+  h2.big .fade2{color:var(--muted);opacity:.5;display:block;}
+  p.lede{font-size:16px;color:var(--muted);line-height:1.7;max-width:480px;margin:20px 0 0;}
+  .stat-row{display:flex;gap:36px;margin-top:44px;flex-wrap:wrap;}
+  .stat-row div h3{font-size:32px;font-weight:700;margin:0 0 4px;color:var(--accent);}
+  .stat-row div span{font-size:12px;color:var(--muted);}
+  .tile-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px;}
+  .tile{border-radius:16px;padding:24px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;
+    transition:transform .28s ease,box-shadow .28s ease,filter .28s ease,background .28s ease,border-color .28s ease;}
+  .tile.fill{background:var(--accent);color:#151312;}
+  .tile.outline{background:var(--surface);border:1px solid var(--border);}
+  .tile:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 14px 34px rgba(0,0,0,.35);}
+  .tile.fill:hover{filter:brightness(1.07);}
+  .tile.outline:hover{border-color:var(--accent);background:rgba(244,108,56,.07);}
+  .tile:active{transform:translateY(-1px) scale(.99);}
+  @media(prefers-reduced-motion:reduce){.tile{transition:none;}.tile:hover{transform:none;}}
+  .tile h4{font-size:15px;font-weight:600;line-height:1.4;margin:0;}
+  .tile-icon{transition:transform .3s ease;}
+  .tile:hover .tile-icon{transform:scale(1.12) rotate(-5deg);}
+  .tile-arrow{align-self:flex-end;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:transform .28s ease;}
+  .tile.fill .tile-arrow{background:rgba(21,19,18,.15);}
+  .tile.outline .tile-arrow{background:rgba(255,255,255,.06);}
+  .tile:hover .tile-arrow{transform:translate(3px,-3px);}
+  .tile svg{width:16px;height:16px;}
+  h2.section-head{font-size:26px;font-weight:600;margin:0 0 8px;}
+  p.section-sub{color:var(--muted);font-size:14px;margin:0 0 32px;}
+  .proj-row{display:flex;align-items:center;gap:18px;padding:16px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:padding-left .2s;}
+  .proj-row:hover{padding-left:6px;}
+  .proj-row:last-child{border-bottom:none;}
+  .proj-thumb{width:64px;height:64px;border-radius:10px;background:var(--surface);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:20px;flex-shrink:0;}
+  .proj-info{flex:1;min-width:0;}
+  .proj-info h4{font-size:16px;font-weight:600;margin:0 0 4px;}
+  .proj-info span{font-size:12px;color:var(--muted);}
+  .proj-link{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;}
+  .proj-row:hover .proj-link{background:var(--accent);border-color:var(--accent);}
+  .proj-link svg{width:14px;height:14px;}
+  .proj-row .featured-badge{font-size:10px;font-weight:600;letter-spacing:.03em;color:var(--accent);background:rgba(244,108,56,.12);border:1px solid rgba(244,108,56,.35);border-radius:6px;padding:3px 8px;flex-shrink:0;}
+  .proj-row.featured{border-color:rgba(244,108,56,.3);}
+  .subhead{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:0 0 4px;}
+  .subhead.featured-subhead{color:var(--accent);}
+  .proj-group{margin-bottom:8px;}
+  .proj-group + .proj-group{margin-top:32px;}
+  .exp-entry{padding:22px 0;}
+  .exp-entry h4{font-size:16px;font-weight:600;margin:0 0 6px;}
+  .exp-entry span{font-size:12px;color:var(--muted);}
+  .exp-list{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .exp-list li{font-size:14px;color:var(--muted);padding-left:16px;position:relative;}
+  .exp-list li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .tool-item{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;
+    opacity:0;transform:translateY(10px);animation:toolIn .5s ease forwards;transition:border-color .25s,background .25s,transform .25s;}
+  .tool-item:hover{border-color:var(--accent);background:rgba(244,108,56,.06);transform:translateY(-2px);}
+  @keyframes toolIn{to{opacity:1;transform:translateY(0);}}
+  @media(prefers-reduced-motion:reduce){.tool-item{animation:none;opacity:1;transform:none;}}
+  .tool-icon{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s ease,background .3s ease;}
+  .tool-icon svg{width:22px;height:22px;}
+  .tool-item:hover .tool-icon{transform:scale(1.14) rotate(-5deg);background:rgba(255,255,255,.12);}
+  .tool-item h5{font-size:14px;font-weight:500;margin:0;}
+  .tool-item span{font-size:11px;color:var(--muted);}
+  .btn-whatsapp{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:13px 22px;border-radius:8px;
+    background:#25D366;color:#0b1a10;font-size:14px;font-weight:600;transition:transform .2s ease,filter .2s ease;}
+  .btn-whatsapp:hover{transform:translateY(-2px);filter:brightness(1.05);}
+  form{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px;}
+  .field{display:flex;flex-direction:column;gap:8px;}
+  .field.full{grid-column:1/-1;}
+  .field label{font-size:12px;color:var(--muted);}
+  .field input,.field textarea{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:14px 16px;color:var(--text);font-family:inherit;font-size:14px;resize:none;}
+  .field input:focus,.field textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  button.submit{grid-column:1/-1;background:var(--accent);color:#151312;border:none;border-radius:8px;padding:16px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:transform .2s;}
+  button.submit:hover{transform:translateY(-2px);}
+  button.submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+  #contact-form .status{font-size:13px;color:var(--muted);margin:0;}
+  #contact-form .status.err{color:#F46C38;}
+  #contact-form .status.ok{color:#3ECF8E;}
+  footer{padding:60px 0 40px;border-top:1px solid var(--border);margin-top:100px;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  footer p{color:var(--muted);font-size:12px;margin:0;}
+  .back-link{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:28px;cursor:pointer;}
+  .back-link:hover{color:var(--accent);}
+  .back-link svg{width:14px;height:14px;}
+  .p-head span.tag{display:inline-block;font-size:11px;color:var(--accent);border:1px solid var(--border);border-radius:6px;padding:5px 10px;margin-bottom:16px;}
+  .p-head h1{font-size:42px;font-weight:700;margin:0 0 12px;line-height:1.1;}
+  .p-head p{font-size:15px;color:var(--muted);max-width:520px;line-height:1.7;margin:0 0 28px;}
+  .p-links{display:flex;gap:12px;margin-bottom:48px;flex-wrap:wrap;}
+  .p-btn{padding:12px 20px;border-radius:8px;font-size:14px;font-weight:500;border:1px solid var(--border);}
+  .p-btn.primary{background:var(--accent);color:#151312;border-color:var(--accent);font-weight:600;}
+  .p-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+  .p-shot{aspect-ratio:16/10;border-radius:12px;border:1px dashed var(--border);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:11px;overflow:hidden;}
+  .p-shot img{width:100%;height:100%;object-fit:cover;}
+  .p-shot svg{width:22px;height:22px;opacity:.5;}
+  .p-note{font-size:12px;color:var(--muted);margin:0 0 48px;}
+  .p-video{aspect-ratio:16/9;border-radius:12px;border:1px dashed var(--border);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:13px;margin-bottom:48px;overflow:hidden;}
+  .p-video svg{width:34px;height:34px;opacity:.6;}
+  .p-video iframe,.p-video video{width:100%;height:100%;border:0;}
+  .p-2col{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:48px;}
+  .p-2col h3{font-size:18px;font-weight:600;margin:0 0 16px;}
+  .p-stack{display:flex;flex-wrap:wrap;gap:8px;}
+  .p-stack span{font-size:12px;border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);}
+  .p-feat{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .p-feat li{font-size:14px;color:var(--muted);padding-left:18px;position:relative;line-height:1.5;}
+  .p-feat li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .p-nav{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:28px;font-size:14px;}
+  .p-nav a{color:var(--muted);}
+  .p-nav a:hover{color:var(--accent);}
+  @media(max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    aside{position:static;}
+    .avatar{max-width:220px;margin:0 auto;}
+    h2.big,.p-head h1{font-size:32px;}
+    .tile-row,.tools-grid,form,.p-2col{grid-template-columns:1fr;}
+    .p-gallery{grid-template-columns:1fr 1fr;}
+    nav{width:calc(100% - 40px);}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a onclick="location.hash=''">Home</a>
+  <a onclick="location.hash='#/projects'">Projects</a>
+  <a onclick="location.hash='#/experience'">Work</a>
+  <a onclick="location.hash='#/skills'">Skills</a>
+  <a onclick="location.hash='#/contact'">Contact</a>
+</nav>
+
+<div class="wrap layout">
+  <aside>
+    <div class="avatar-wrap">
+      <div class="avatar"><img src="fahad-headshot.jpg" alt="Mirza Fahad Baig" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;border-radius:16px;"><div class="avatar-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div></div>
+    </div>
+    <div class="id-card">
+      <h1>Mirza Fahad Baig</h1>
+      <p>CS student building real apps in Flutter, currently interning as an Android developer.</p>
+      <div class="social-row">
+        <a href="mailto:fahadmirza2000@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg></a>
+        <a href="https://github.com/fahad11560" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.38-3.37-1.38-.46-1.19-1.11-1.51-1.11-1.51-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+        <a href="https://www.linkedin.com/in/fahadbaig15" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.89 6 2.5 6S0 4.88 0 3.5 1.09 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4zM8.5 8h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23h-4z"/></svg></a>
+        <a href="https://wa.me/qr/6Q7M4RLNRFUNC1" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2z"/></svg></a>
+      </div>
+    </div>
+  </aside>
+  <main><div id="view"></div></main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+let sb = null;
+try{
+  if(window.supabase && typeof SUPABASE_URL!=='undefined' && SUPABASE_URL && SUPABASE_URL!=='YOUR_SUPABASE_URL'){
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+}catch(e){ console.warn('Supabase not configured yet:', e); }
+
+const ICON_LINK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>';
+const ICON_SHOT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>';
+const ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg>';
+const ICON_BACK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>';
+const ICON_FLUTTER='<svg viewBox="0 0 24 24"><path d="M4.5 13.5L14 4h6L9.5 14.5z" fill="#02569B"/><path d="M13 14.5L17.5 19H14l-4.5-4.5L13 14.5z" fill="#02569B"/><path d="M13 14.5l4.5-4.5L14 6.5l-4.5 4.5z" fill="#13B9FD"/><path d="M9.5 14.5L14 19h3.5l-4-4z" fill="#02569B"/></svg>';
+const ICON_DART='<svg viewBox="0 0 24 24"><path d="M3 8.5L9 3l9 3 3 9-6 6-9-3z" fill="#0175C2"/><path d="M9 3l3.5 10.5L21 15l-3-9z" fill="#13B9FD"/><path d="M3 8.5l9.5 5-2 7.5-9-3z" fill="#02569B"/></svg>';
+const ICON_JAVA='<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M6 11h11v3a5.5 5.5 0 0 1-5.5 5.5h0A5.5 5.5 0 0 1 6 14v-3z" fill="#4E4E4E" stroke="none"/><path d="M8 11c-1-2 .5-3 1-4.5M13 11c-1-2 .5-3 1-4.5" stroke="#EA2D2E" stroke-width="1.5"/><path d="M4 19.5c3 1.2 12 1.2 15.5 0" stroke="#EA2D2E" stroke-width="1.5"/></svg>';
+const ICON_PYTHON='<svg viewBox="0 0 24 24"><path d="M12 2.5c-4 0-4 1.9-4 1.9v2h4v.6H6.5S3 6.6 3 11s2.6 4.2 2.6 4.2h1.9v-2.4S7.4 10 9.6 10h3.8s2 .1 2-1.9V5s.3-2.5-3.4-2.5z" fill="#3776AB"/><circle cx="9" cy="4.5" r=".7" fill="#fff"/><path d="M12 21.5c4 0 4-1.9 4-1.9v-2h-4v-.6h5.5S21 15.4 21 11s-2.6-4.2-2.6-4.2h-1.9v2.4S16.6 12 14.4 12h-3.8s-2-.1-2 1.9V17s-.3 2.5 3.4 2.5z" fill="#FFD43B"/><circle cx="15" cy="19.5" r=".7" fill="#151312"/></svg>';
+const ICON_TF='<svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l4 2.3V9.3L12 6.6l5 2.7v10L21 17V7z" fill="#FF6F00"/><path d="M11 9v13l2 1.1V10.1z" fill="#FF6F00"/></svg>';
+const ICON_CV='<svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="4.2" fill="#EE4C2C"/><circle cx="16" cy="8" r="4.2" fill="#5FBF43"/><circle cx="12.5" cy="15" r="4.2" fill="#1F5FBF"/><circle cx="9" cy="8" r="1.7" fill="#151312"/><circle cx="16" cy="8" r="1.7" fill="#151312"/><circle cx="12.5" cy="15" r="1.7" fill="#151312"/></svg>';
+const ICON_N8N='<svg viewBox="0 0 24 24" fill="none" stroke="#EA4B71" stroke-width="1.8"><circle cx="5" cy="6" r="2.3" fill="#EA4B71" stroke="none"/><circle cx="5" cy="18" r="2.3" fill="#EA4B71" stroke="none"/><circle cx="18" cy="12" r="2.3" fill="#EA4B71" stroke="none"/><path d="M7 6.8L15.5 11M7 17.2L15.5 13"/></svg>';
+const ICON_GEMINI='<svg viewBox="0 0 24 24"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4C8DF6"/><stop offset="50%" stop-color="#B064F0"/><stop offset="100%" stop-color="#F46C38"/></linearGradient></defs><path d="M12 2c.6 4.4 3.6 7.4 8 8-4.4.6-7.4 3.6-8 8-.6-4.4-3.6-7.4-8-8 4.4-.6 7.4-3.6 8-8z" fill="url(#gg)"/></svg>';
+const ICON_SUPABASE='<svg viewBox="0 0 24 24"><defs><linearGradient id="sb2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3ECF8E"/><stop offset="100%" stop-color="#249361"/></linearGradient></defs><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="url(#sb2)"/></svg>';
+const ICON_SQLITE='<svg viewBox="0 0 24 24" fill="none" stroke="#0B4F71" stroke-width="1.7"><ellipse cx="12" cy="5.5" rx="8" ry="3" fill="#0B4F71" stroke="none"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>';
+const ICON_GIT='<svg viewBox="0 0 24 24" fill="none" stroke="#F05033" stroke-width="1.8"><circle cx="6" cy="6" r="2" fill="#F05033" stroke="none"/><circle cx="6" cy="18" r="2" fill="#F05033" stroke="none"/><circle cx="18" cy="9" r="2" fill="#F05033" stroke="none"/><path d="M6 8v8M6 8c0 4 6 3 6 0V9"/></svg>';
+const ICON_VSCODE='<svg viewBox="0 0 24 24"><path d="M16 3l5 3v12l-5 3-8-6.5V16l-4-2 4-2V8.5L16 3z" fill="#007ACC"/><path d="M21 6l-8 6 8 6V6z" fill="#0098FF"/></svg>';
+const ICON_GENERIC='<svg viewBox="0 0 24 24" fill="none" stroke="#F46C38" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5L2 12l6 7M16 5l6 7-6 7"/></svg>';
+const ICONS_BY_KEY={flutter:ICON_FLUTTER,dart:ICON_DART,java:ICON_JAVA,python:ICON_PYTHON,tensorflow:ICON_TF,opencv:ICON_CV,n8n:ICON_N8N,gemini:ICON_GEMINI,supabase:ICON_SUPABASE,sqlite:ICON_SQLITE,git:ICON_GIT,vscode:ICON_VSCODE,generic:ICON_GENERIC};
+
+const DEFAULT_PROJECTS=[
+ {id:'futsal-score',code:'FS',name:'Futsal Score',tag:'Flutter · Solo project',
+  tagline:'Offline-first futsal team & match management app.',
+  description:'Futsal Score manages teams, players and live matches without needing a constant connection. It tracks goals in real time, keeps player and team statistics, logs match history, and picks a Man of the Match — all built on Clean Architecture so the offline and sync layers stay decoupled.',
+  stack:['Flutter','Dart','Riverpod','Supabase','SQLite','Clean Architecture'],
+  features:['Live, goal-by-goal score tracking during a match','Offline-first storage with background sync to Supabase','Player & team stats built up automatically from match history','Man of the Match selection per game'],
+  repo:'https://github.com/fahad11560/Futsal_Score-App',live:null,featured:true,domain:'mobile'},
+ {id:'lead-qualification',code:'LQ',name:'Lead Qualification System',tag:'n8n · Automation',
+  tagline:'Automated workflow that qualifies incoming leads.',
+  description:'A no-manual-review pipeline built in n8n that ingests incoming leads, scores them against qualification criteria, and routes only the qualified ones forward — removing repetitive triage work.',
+  stack:['n8n','Workflow Automation'],
+  features:['Automatic scoring of incoming leads against set criteria','Routes only qualified leads onward, cutting manual review','Fully visual workflow, easy to extend with new rules'],
+  repo:null,live:null,featured:false,domain:'automation'},
+ {id:'lottery-app',code:'LA',name:'Lottery App',tag:'Flutter · Solo project',
+  tagline:'A simple number-draw lottery game.',
+  description:'A lightweight Flutter app that draws a random number between 1 and 10 and checks it against the winning number — built as a focused exercise in state and UI logic.',
+  stack:['Flutter','Dart'],
+  features:['Random number generation and win/lose logic','Clean, minimal single-screen UI'],
+  repo:'https://github.com/fahad11560/lottery_app',live:null,featured:false,domain:'mobile'},
+ {id:'calculator-app',code:'CA',name:'Calculator App',tag:'Java · Android',
+  tagline:'A standard calculator with correct operator precedence.',
+  description:'An Android calculator built in Java handling the four basic operations plus chained expressions, evaluated with proper operator precedence rather than simple left-to-right math.',
+  stack:['Java','Android'],
+  features:['Expression evaluation with correct operator precedence','Built during the OIBSIP Android internship'],
+  repo:'https://github.com/fahad11560/OIBSIP/tree/main/Android-Task3-Calculator',live:null,featured:false,domain:'mobile'},
+ {id:'unit-converter',code:'UC',name:'Unit Converter',tag:'Java · Android',
+  tagline:'Universal converter for length, weight and temperature.',
+  description:'An Android app that converts across length, weight and temperature units automatically as you type, with light and dark theme support.',
+  stack:['Java','Android'],
+  features:['Live conversion as values are entered, no submit step','Length, weight and temperature unit categories','Light/Dark theme toggle'],
+  repo:'https://github.com/fahad11560/OIBSIP/tree/main/Android-Task1-UnitConverter',live:null,featured:false,domain:'mobile'}
+];
+
+const DEFAULT_EXPERIENCE=[
+ {role:'Android Development Intern',company:'Oasis Infobyte (OIBSIP)',meta:'Remote · Aug 5 – Sep 15',
+  bullets:['Built a Unit Converter app supporting length, weight, and temperature conversions.','Built a Calculator app with full operator precedence handling.','Built a Stopwatch app as part of the internship task set.']}
+];
+
+const DEFAULT_SKILLS=[
+ {name:'Flutter',category:'Mobile Framework',icon_key:'flutter'},
+ {name:'Dart',category:'Language',icon_key:'dart'},
+ {name:'Java',category:'Android Dev',icon_key:'java'},
+ {name:'Python',category:'Language',icon_key:'python'},
+ {name:'TensorFlow',category:'ML Toolkit',icon_key:'tensorflow'},
+ {name:'OpenCV',category:'Computer Vision',icon_key:'opencv'},
+ {name:'n8n',category:'Automation',icon_key:'n8n'},
+ {name:'Gemini',category:'AI Model',icon_key:'gemini'},
+ {name:'Supabase',category:'Backend',icon_key:'supabase'},
+ {name:'SQLite',category:'Database',icon_key:'sqlite'},
+ {name:'Git',category:'Version Control',icon_key:'git'},
+ {name:'VS Code',category:'Editor',icon_key:'vscode'}
+];
+
+let PROJECTS=DEFAULT_PROJECTS.slice();
+let EXPERIENCE=DEFAULT_EXPERIENCE.slice();
+let SKILLS=DEFAULT_SKILLS.slice();
+
+async function loadContent(){
+  if(!sb) return;
+  try{
+    const [pRes,eRes,sRes]=await Promise.all([
+      sb.from('projects').select('*').order('sort_order',{ascending:true}),
+      sb.from('experience').select('*').order('sort_order',{ascending:true}),
+      sb.from('skills').select('*').order('sort_order',{ascending:true})
+    ]);
+    if(!pRes.error && pRes.data && pRes.data.length) PROJECTS=pRes.data;
+    if(!eRes.error && eRes.data && eRes.data.length) EXPERIENCE=eRes.data;
+    if(!sRes.error && sRes.data && sRes.data.length) SKILLS=sRes.data;
+    currentMode=null; // force a rebuild so freshly-loaded content actually appears
+    render();
+  }catch(e){ console.warn('Could not load live content, using defaults', e); }
+}
+function projectCode(name){ return (name||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() || '--'; }
+
+const DOMAIN_META={
+  mobile:{title:'MOBILE',fade:'DEVELOPMENT',desc:'Flutter, Dart, and native Android work — the apps I actually ship.'},
+  automation:{title:'AI &',fade:'AUTOMATION',desc:'n8n workflows, Python, and machine learning experiments.'}
+};
+function domainView(key){
+  const meta=DOMAIN_META[key];
+  if(!meta) return `<p style="padding-top:40px;">Not found. <a href="#" onclick="location.hash=''" style="color:var(--accent)">Go home</a></p>`;
+  const items=PROJECTS.filter(p=>p.domain===key);
+  return `
+  <div class="back-link" onclick="location.hash=''">${ICON_BACK} Home</div>
+  <h2 class="big">${meta.title}<span class="fade2">${meta.fade}</span></h2>
+  <p class="lede">${meta.desc}</p>
+  <div style="margin-top:44px;">
+    ${items.length ? `<div class="proj-list">${items.map(p=>`
+      <div class="proj-row" onclick="location.hash='#/project/${p.id}'">
+        <div class="proj-thumb">${projectCode(p.name)}</div>
+        <div class="proj-info"><h4>${p.name}${p.featured?' <span style="color:var(--accent);font-size:11px;font-weight:600;">★</span>':''}</h4><span>${p.tag}</span></div>
+        <span class="proj-link">${ICON_LINK}</span>
+      </div>`).join('')}</div>`
+    : `<p style="color:var(--muted);font-size:14px;">No projects tagged in this domain yet.</p>`}
+  </div>`;
+}
+
+function homeView(){
+  return `
+  <section id="home">
+    <h2 class="big">FLUTTER<span class="fade2">DEVELOPER</span></h2>
+    <p class="lede">Computer Science student at UCP, building offline-first Flutter apps and exploring AI automation with n8n. Not claiming to be a senior — just a student who ships real things.</p>
+    <div class="stat-row">
+      <div><h3>${PROJECTS.length}+</h3><span>PROJECTS SHIPPED</span></div>
+      <div><h3>${EXPERIENCE.length}</h3><span>ROLE${EXPERIENCE.length===1?'':'S'} LOGGED</span></div>
+      <div><h3>2027</h3><span>EXPECTED GRAD</span></div>
+    </div>
+    <div class="tile-row">
+      <div class="tile fill" onclick="location.hash='#/domain/mobile'">
+        <svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="#151312" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 18h4"/></svg>
+        <h4>FLUTTER &amp; DART<br>MOBILE DEVELOPMENT</h4>
+        <div class="tile-arrow" style="background:rgba(21,19,18,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#151312" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
+      </div>
+      <div class="tile outline" onclick="location.hash='#/domain/automation'">
+        <svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="#F46C38" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+        <h4>N8N, PYTHON, TENSORFLOW<br>AI &amp; AUTOMATION</h4>
+        <div class="tile-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#F46C38" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
+      </div>
+    </div>
+  </section>
+  <section id="projects">
+    <h2 class="section-head">Recent Projects</h2>
+    <p class="section-sub">Click any project to see the full write-up.</p>
+    ${(()=>{
+      const featured = PROJECTS.filter(p=>p.featured);
+      const rest = PROJECTS.filter(p=>!p.featured);
+      const row = (p,isFeatured)=>`
+      <div class="proj-row${isFeatured?' featured':''}" onclick="location.hash='#/project/${p.id}'">
+        <div class="proj-thumb">${projectCode(p.name)}</div>
+        <div class="proj-info"><h4>${p.name}</h4><span>${p.tag}</span></div>
+        ${isFeatured?'<span class="featured-badge">FEATURED</span>':''}
+        <span class="proj-link">${ICON_LINK}</span>
+      </div>`;
+      let out='';
+      if(featured.length){
+        out += `<div class="proj-group"><p class="subhead featured-subhead">Featured</p><div class="proj-list">${featured.map(p=>row(p,true)).join('')}</div></div>`;
+      }
+      if(rest.length){
+        out += `<div class="proj-group">${featured.length?'<p class="subhead">All projects</p>':''}<div class="proj-list">${rest.map(p=>row(p,false)).join('')}</div></div>`;
+      }
+      return out;
+    })()}
+  </section>
+  <section id="experience">
+    <h2 class="big">EXPERIENCE<span class="fade2">&amp; WORK</span></h2>
+    <div style="margin-top:36px;">
+      ${EXPERIENCE.map(e=>`
+      <div class="exp-entry">
+        <h4>${e.role}</h4>
+        <span>${e.company||''}${e.meta?' · '+e.meta:''}</span>
+        <ul class="exp-list">${(e.bullets||[]).map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>`).join('')}
+    </div>
+  </section>
+  <section id="skills">
+    <h2 class="section-head">Skills &amp; Tools</h2>
+    <p class="section-sub">What I actually work with day to day.</p>
+    <div class="tools-grid">
+      ${SKILLS.map((s,idx)=>`<div class="tool-item" style="animation-delay:${idx*45}ms"><div class="tool-icon">${ICONS_BY_KEY[s.icon_key]||ICON_GENERIC}</div><div><h5>${s.name}</h5><span>${s.category||''}</span></div></div>`).join('')}
+    </div>
+  </section>
+  <section id="contact">
+    <h2 class="big">LET'S WORK<span class="fade2">TOGETHER</span></h2>
+    <p class="lede">Open to opportunities, collaborations, and conversations about Flutter or automation. Reach out by email or WhatsApp — whichever's easier.</p>
+    <a class="btn-whatsapp" href="https://wa.me/qr/6Q7M4RLNRFUNC1" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2z"/></svg>
+      Message on WhatsApp
+    </a>
+    <form id="contact-form">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="field"><label>Name</label><input type="text" id="cf-name" placeholder="Your name" required></div>
+      <div class="field"><label>Email</label><input type="email" id="cf-email" placeholder="your@email.com" required></div>
+      <div class="field full"><label>Message</label><textarea id="cf-message" rows="5" placeholder="Tell me about it" required></textarea></div>
+      <button class="submit" type="submit" id="cf-submit">Send message</button>
+      <p class="status" id="cf-status" style="grid-column:1/-1;"></p>
+    </form>
+  </section>
+  <footer><div class="wrap" style="padding:0;"><p>© 2026 Mirza Fahad Baig. Built with Flutter in mind.</p><p>Rawalpindi, Pakistan</p></div></footer>`;
+}
+
+function projectView(id){
+  const i=PROJECTS.findIndex(p=>p.id===id);
+  if(i===-1) return `<p style="padding-top:40px;">Project not found. <a href="#" onclick="location.hash=''" style="color:var(--accent)">Go home</a></p>`;
+  const p=PROJECTS[i];
+  const next=PROJECTS[(i+1)%PROJECTS.length];
+  return `
+  <div class="back-link" onclick="location.hash='#/projects'">${ICON_BACK} All projects</div>
+  <div class="p-head">
+    <span class="tag">${p.tag}</span>${p.featured?' <span class="tag" style="color:var(--accent);border-color:rgba(244,108,56,.4);">FEATURED</span>':''}
+    <h1>${p.name}</h1>
+    <p>${p.tagline}</p>
+  </div>
+  <div class="p-links">
+    ${p.repo?`<a class="p-btn primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub</a>`:''}
+    ${p.live?`<a class="p-btn" href="${p.live}" target="_blank" rel="noopener">Live demo</a>`:''}
+  </div>
+  <div class="p-gallery" id="p-gallery">
+    <div class="p-shot">${ICON_SHOT}<span>Screenshot 1</span></div>
+    <div class="p-shot">${ICON_SHOT}<span>Screenshot 2</span></div>
+    <div class="p-shot">${ICON_SHOT}<span>Screenshot 3</span></div>
+  </div>
+  <p class="p-note">Add real screenshots and a demo video anytime from the admin panel.</p>
+  <div class="p-video" id="p-video">${ICON_PLAY}<span>Demo video coming soon</span></div>
+  <div class="p-2col">
+    <div><h3>Overview</h3><p style="color:var(--muted);font-size:14px;line-height:1.7;">${p.description}</p></div>
+    <div><h3>Tech stack</h3><div class="p-stack">${p.stack.map(s=>`<span>${s}</span>`).join('')}</div>
+      <h3 style="margin-top:28px;">Key features</h3><ul class="p-feat">${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+    </div>
+  </div>
+  <div class="p-nav">
+    <a href="#" onclick="location.hash='#/projects'">← All projects</a>
+    <a href="#" onclick="location.hash='#/project/${next.id}'">Next: ${next.name} →</a>
+  </div>`;
+}
+
+function videoEmbedHtml(url){
+  const yt=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+  if(yt) return `<iframe src="https://www.youtube.com/embed/${yt[1]}" allowfullscreen></iframe>`;
+  const vm=url.match(/vimeo\.com\/(\d+)/);
+  if(vm) return `<iframe src="https://player.vimeo.com/video/${vm[1]}" allowfullscreen></iframe>`;
+  return `<video controls src="${url}"></video>`;
+}
+
+async function loadProjectMedia(id){
+  if(!sb) return;
+  try{
+    const {data,error}=await sb.from('project_media').select('screenshots,video_url').eq('project_id',id).maybeSingle();
+    if(error||!data) return;
+    const gallery=document.getElementById('p-gallery');
+    if(gallery && Array.isArray(data.screenshots) && data.screenshots.length){
+      gallery.innerHTML=data.screenshots.map(s=>`<a class="p-shot" href="${s.url}" target="_blank" rel="noopener" style="border-style:solid;padding:0;"><img src="${s.url}" alt="Screenshot"></a>`).join('');
+    }
+    const videoBox=document.getElementById('p-video');
+    if(videoBox && data.video_url){
+      videoBox.style.borderStyle='solid';
+      videoBox.style.padding='0';
+      videoBox.innerHTML=videoEmbedHtml(data.video_url);
+    }
+  }catch(e){ console.warn('Could not load project media', e); }
+}
+
+document.addEventListener('submit', async (e)=>{
+  if(!e.target || e.target.id!=='contact-form') return;
+  e.preventDefault();
+  const form=e.target;
+  const statusEl=document.getElementById('cf-status');
+  const btn=document.getElementById('cf-submit');
+  const honey=form.querySelector('[name="_honey"]').value;
+  if(honey) return; // silently drop bot submissions
+  const name=document.getElementById('cf-name').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  const message=document.getElementById('cf-message').value.trim();
+  if(!name||!email||!message){ statusEl.textContent='Please fill in all fields.'; statusEl.className='status err'; return; }
+
+  btn.disabled=true; statusEl.textContent='Sending...'; statusEl.className='status';
+  let emailOk=false;
+  try{
+    const res=await fetch('https://formsubmit.co/ajax/fahadmirza2000@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({ name, email, message, _subject:`Portfolio message from ${name}`, _captcha:'false' })
+    });
+    emailOk=res.ok;
+  }catch(err){ console.warn('Email send failed', err); }
+
+  let sheetOk=false;
+  try{
+    if(typeof GOOGLE_SHEETS_URL!=='undefined' && GOOGLE_SHEETS_URL && GOOGLE_SHEETS_URL!=='YOUR_APPS_SCRIPT_WEB_APP_URL'){
+      const res=await fetch(GOOGLE_SHEETS_URL,{
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'}, // avoids a CORS preflight Apps Script can't handle
+        body:JSON.stringify({ name, email, message })
+      });
+      const json=await res.json();
+      sheetOk = json && json.status==='ok';
+    }
+  }catch(err){ console.warn('Could not log message to Google Sheets', err); }
+
+  btn.disabled=false;
+  if(emailOk||sheetOk){
+    statusEl.textContent="Thanks — I'll get back to you soon.";
+    statusEl.className='status ok';
+    form.reset();
+  }else{
+    statusEl.textContent='Something went wrong sending that. Try WhatsApp instead, or email me directly.';
+    statusEl.className='status err';
+  }
+});
+
+let currentMode=null; // 'home' | 'project' — tracks what's actually in #view right now
+function scrollToHash(h){
+  if(!h || h==='#'){ window.scrollTo({top:0,behavior:'smooth'}); return; }
+  const el=document.getElementById(h.replace('#/',''));
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  else window.scrollTo({top:0,behavior:'smooth'});
+}
+function render(){
+  const h=location.hash;
+  const view=document.getElementById('view');
+
+  if(h.startsWith('#/project/')){
+    const id=h.replace('#/project/','');
+    view.style.opacity=0;
+    requestAnimationFrame(()=>{
+      view.innerHTML=projectView(id);
+      void view.offsetWidth;
+      view.style.opacity=1;
+      window.scrollTo({top:0,behavior:'instant'});
+      loadProjectMedia(id);
+    });
+    currentMode='project';
+    return;
+  }
+
+  if(h.startsWith('#/domain/')){
+    const key=h.replace('#/domain/','');
+    view.style.opacity=0;
+    requestAnimationFrame(()=>{
+      view.innerHTML=domainView(key);
+      void view.offsetWidth;
+      view.style.opacity=1;
+      window.scrollTo({top:0,behavior:'instant'});
+    });
+    currentMode='domain';
+    return;
+  }
+
+  if(currentMode==='home'){
+    // Home is already on screen — just scroll to the section, no rebuild, no jump.
+    scrollToHash(h);
+    return;
+  }
+
+  // First load, or coming back from a project page — home isn't in the DOM yet.
+  view.style.opacity=0;
+  requestAnimationFrame(()=>{
+    view.innerHTML=homeView();
+    void view.offsetWidth;
+    view.style.opacity=1;
+    currentMode='home';
+    requestAnimationFrame(()=>scrollToHash(h));
+  });
+}
+window.addEventListener('hashchange',render);
+render();
+loadContent();
+</script>
+</body>
+</html>

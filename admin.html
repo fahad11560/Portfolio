@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#151312;--text:#FFFFFF;--muted:#998F8F;--accent:#F46C38;--surface:rgba(255,255,255,.04);--border:rgba(255,255,255,.12);}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;min-height:100vh;}
+  .wrap{max-width:860px;margin:0 auto;padding:60px 24px 100px;}
+  h1{font-size:28px;font-weight:600;margin:0 0 8px;}
+  h3{font-size:16px;font-weight:600;margin:0 0 16px;}
+  p.sub{color:var(--muted);font-size:14px;margin:0 0 32px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:24px;}
+  label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px;}
+  input[type=email],input[type=password],input[type=text],select,textarea{
+    width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;
+    padding:12px 14px;color:var(--text);font-family:inherit;font-size:14px;margin-bottom:16px;resize:vertical;}
+  textarea{min-height:80px;}
+  button{background:var(--accent);color:#151312;border:none;border-radius:8px;padding:11px 18px;
+    font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+  button.secondary{background:transparent;color:var(--muted);border:1px solid var(--border);}
+  button.danger{background:transparent;color:#e05a4e;border:1px solid rgba(224,90,78,.4);}
+  button:disabled{opacity:.5;cursor:not-allowed;}
+  #login-view{max-width:360px;margin:80px auto 0;}
+  #app-view{display:none;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+  .tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;}
+  .tab-btn{background:var(--surface);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer;}
+  .tab-btn.active{background:var(--accent);color:#151312;border-color:var(--accent);font-weight:600;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .row-card{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .row-card .info h4{font-size:14px;margin:0 0 4px;}
+  .row-card .info span{font-size:12px;color:var(--muted);}
+  .row-card .actions{display:flex;gap:8px;flex-shrink:0;}
+  .shot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:16px;}
+  .shot{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block;}
+  .shot button{position:absolute;top:4px;right:4px;width:22px;height:22px;padding:0;border-radius:50%;
+    background:rgba(21,19,18,.8);color:#fff;font-size:12px;line-height:1;}
+  .status{font-size:13px;color:var(--muted);margin-top:4px;min-height:18px;}
+  .status.err{color:#F46C38;}
+  .status.ok{color:#3ECF8E;}
+  hr.sep{border:none;border-top:1px solid var(--border);margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div id="login-view" class="wrap">
+  <h1>Admin</h1>
+  <p class="sub">Sign in to manage your portfolio.</p>
+  <div class="card">
+    <label>Email</label>
+    <input type="email" id="login-email" autocomplete="username">
+    <label>Password</label>
+    <input type="password" id="login-password" autocomplete="current-password">
+    <button id="login-btn" style="width:100%">Sign in</button>
+    <p class="status" id="login-status"></p>
+  </div>
+</div>
+
+<div id="app-view" class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>Manage portfolio</h1>
+      <p class="sub" style="margin:0;">Changes go live on the site immediately.</p>
+    </div>
+    <button class="secondary" id="logout-btn">Sign out</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="projects">Projects</button>
+    <button class="tab-btn" data-tab="experience">Experience</button>
+    <button class="tab-btn" data-tab="skills">Skills</button>
+    <button class="tab-btn" data-tab="media">Screenshots &amp; video</button>
+    <button class="tab-btn" data-tab="messages">Messages</button>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="panel active" id="panel-projects">
+    <div class="card">
+      <h3>Existing projects</h3>
+      <div id="projects-list"></div>
+    </div>
+    <div class="card">
+      <h3 id="project-form-title">Add a project</h3>
+      <input type="hidden" id="project-id-field">
+      <label>Name</label><input type="text" id="p-name">
+      <label>Tagline (one line)</label><input type="text" id="p-tagline">
+      <label>Description</label><textarea id="p-description"></textarea>
+      <label>Tag (shown as a small badge, e.g. "Flutter · Solo project")</label><input type="text" id="p-tag">
+      <label>GitHub repo URL (optional)</label><input type="text" id="p-repo">
+      <label>Live demo URL (optional)</label><input type="text" id="p-live">
+      <label>Tech stack (comma separated)</label><input type="text" id="p-stack" placeholder="Flutter, Dart, Supabase">
+      <label>Domain (which home-page box this project shows under)</label>
+      <select id="p-domain">
+        <option value="mobile">Mobile Development (Flutter &amp; Dart box)</option>
+        <option value="automation">AI &amp; Automation (n8n, Python box)</option>
+        <option value="other">Other / not shown in a domain box</option>
+      </select>
+      <label>Key features (one per line)</label><textarea id="p-features"></textarea>
+      <label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <input type="checkbox" id="p-featured" style="width:auto;margin:0;">
+        <span style="font-size:13px;color:var(--text);">Pin as Featured</span>
+      </label>
+      <div style="display:flex;gap:10px;">
+        <button id="project-save-btn">Save project</button>
+        <button class="secondary" id="project-cancel-btn">Clear form</button>
+      </div>
+      <p class="status" id="project-status"></p>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="panel" id="panel-experience">
+    <div class="card">
+      <h3>Existing entries</h3>
+      <div id="experience-list"></div>
+    </div>
+    <div class="card">
+      <h3 id="exp-form-title">Add an experience entry</h3>
+      <input type="hidden" id="e-id-field">
+      <label>Role / title</label><input type="text" id="e-role">
+      <label>Company / organization</label><input type="text" id="e-company">
+      <label>Meta (dates, location — e.g. "Remote · Jan 2026 – Present")</label><input type="text" id="e-meta">
+      <label>Bullets (one per line)</label><textarea id="e-bullets"></textarea>
+      <div style="display:flex;gap:10px;">
+        <button id="exp-save-btn">Save entry</button>
+        <button class="secondary" id="exp-cancel-btn">Clear form</button>
+      </div>
+      <p class="status" id="exp-status"></p>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="panel" id="panel-skills">
+    <div class="card">
+      <h3>Existing skills</h3>
+      <div id="skills-list"></div>
+    </div>
+    <div class="card">
+      <h3 id="skill-form-title">Add a skill</h3>
+      <input type="hidden" id="s-id-field">
+      <label>Name</label><input type="text" id="s-name" placeholder="e.g. Kotlin">
+      <label>Category label</label><input type="text" id="s-category" placeholder="e.g. Language">
+      <label>Icon</label>
+      <select id="s-icon">
+        <option value="flutter">Flutter</option><option value="dart">Dart</option>
+        <option value="java">Java</option><option value="python">Python</option>
+        <option value="tensorflow">TensorFlow</option><option value="opencv">OpenCV</option>
+        <option value="n8n">n8n</option><option value="gemini">Gemini</option>
+        <option value="supabase">Supabase</option><option value="sqlite">SQLite</option>
+        <option value="git">Git</option><option value="vscode">VS Code</option>
+        <option value="generic" selected>Generic (no matching logo)</option>
+      </select>
+      <div style="display:flex;gap:10px;">
+        <button id="skill-save-btn">Save skill</button>
+        <button class="secondary" id="skill-cancel-btn">Clear form</button>
+      </div>
+      <p class="status" id="skill-status"></p>
+    </div>
+  </div>
+
+  <!-- MEDIA -->
+  <div class="panel" id="panel-media">
+    <div class="card">
+      <label>Project</label>
+      <select id="project-select"></select>
+    </div>
+    <div class="card">
+      <h3>Screenshots</h3>
+      <div class="shot-grid" id="shot-grid"></div>
+      <label>Add a screenshot</label>
+      <input type="file" id="shot-file" accept="image/*">
+      <button id="shot-upload-btn">Upload</button>
+      <p class="status" id="shot-status"></p>
+    </div>
+    <div class="card">
+      <h3>Demo video</h3>
+      <label>YouTube / Vimeo link, or a direct video file URL</label>
+      <input type="text" id="video-url" placeholder="https://youtube.com/watch?v=...">
+      <button id="video-save-btn">Save</button>
+      <button class="secondary" id="video-clear-btn">Clear</button>
+      <p class="status" id="video-status"></p>
+    </div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="panel" id="panel-messages">
+    <div class="card">
+      <h3>Contact form submissions</h3>
+      <p class="sub" style="margin:0 0 16px;">Every message is emailed to you directly, and also logged to a Google Sheet as a backup record — open it anytime to see the full history.</p>
+      <a id="sheet-link" href="#" target="_blank" rel="noopener"><button>Open Google Sheet</button></a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+if(typeof SUPABASE_URL==='undefined' || SUPABASE_URL==='YOUR_SUPABASE_URL'){
+  document.body.innerHTML='<div style="padding:60px;font-family:sans-serif;color:#fff;background:#151312;min-height:100vh;">Supabase isn\'t configured yet — fill in config.js first.</div>';
+  throw new Error('config.js not set up');
+}
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function slugify(s){
+  return (s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'item';
+}
+function uid(){ return (crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2)).slice(0,32); }
+function linesToArray(text){ return (text||'').split('\\n').map(s=>s.trim()).filter(Boolean); }
+function csvToArray(text){ return (text||'').split(',').map(s=>s.trim()).filter(Boolean); }
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  };
+});
+
+/* ---------- auth ---------- */
+const loginView=document.getElementById('login-view');
+const appView=document.getElementById('app-view');
+async function checkSession(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(session){ showApp(); } else { showLogin(); }
+}
+function showLogin(){ loginView.style.display='block'; appView.style.display='none'; }
+function showApp(){ loginView.style.display='none'; appView.style.display='block'; loadAll(); }
+document.getElementById('login-btn').onclick = async ()=>{
+  const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value;
+  const statusEl=document.getElementById('login-status');
+  statusEl.textContent='Signing in...'; statusEl.className='status';
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if(error){ statusEl.textContent=error.message; statusEl.className='status err'; return; }
+  statusEl.textContent=''; showApp();
+};
+document.getElementById('logout-btn').onclick = async ()=>{ await sb.auth.signOut(); showLogin(); };
+
+async function loadAll(){
+  await Promise.all([loadProjects(), loadExperience(), loadSkills()]);
+  populateProjectSelect();
+  const sheetLink=document.getElementById('sheet-link');
+  if(typeof GOOGLE_SHEET_VIEW_URL!=='undefined' && GOOGLE_SHEET_VIEW_URL && GOOGLE_SHEET_VIEW_URL!=='YOUR_GOOGLE_SHEET_LINK'){
+    sheetLink.href=GOOGLE_SHEET_VIEW_URL;
+  }else{
+    sheetLink.href='#';
+    sheetLink.onclick=(e)=>{ e.preventDefault(); alert('Add your Google Sheet link to config.js as GOOGLE_SHEET_VIEW_URL first.'); };
+  }
+}
+
+/* ============ PROJECTS ============ */
+let projectsCache=[];
+async function loadProjects(){
+  const { data, error } = await sb.from('projects').select('*').order('sort_order',{ascending:true});
+  projectsCache = (!error && data) ? data : [];
+  const list=document.getElementById('projects-list');
+  list.innerHTML = projectsCache.length ? `<p style="color:var(--muted);font-size:12px;margin:0 0 12px;">Top of the list = highest priority on the site. Use ↑/↓ to reorder, or the pin to feature a project.</p>` +
+    projectsCache.map((p,idx)=>`
+    <div class="row-card">
+      <div class="info"><h4>${p.name}${p.featured?' <span style="color:var(--accent);font-size:11px;font-weight:600;">★ FEATURED</span>':''}</h4><span>${p.tagline||''}</span></div>
+      <div class="actions">
+        <button class="secondary" data-up="${p.id}" ${idx===0?'disabled':''} title="Move up">↑</button>
+        <button class="secondary" data-down="${p.id}" ${idx===projectsCache.length-1?'disabled':''} title="Move down">↓</button>
+        <button class="secondary" data-pin="${p.id}">${p.featured?'Unpin':'Pin'}</button>
+        <button class="secondary" data-edit="${p.id}">Edit</button>
+        <button class="danger" data-del="${p.id}">Delete</button>
+      </div>
+    </div>`).join('') : '<p style="color:var(--muted);font-size:13px;">No projects yet — add your first one below.</p>';
+  list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editProject(b.dataset.edit));
+  list.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteProject(b.dataset.del));
+  list.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>moveProject(b.dataset.up,-1));
+  list.querySelectorAll('[data-down]').forEach(b=>b.onclick=()=>moveProject(b.dataset.down,1));
+  list.querySelectorAll('[data-pin]').forEach(b=>b.onclick=()=>togglePin(b.dataset.pin));
+}
+async function moveProject(id, dir){
+  const idx = projectsCache.findIndex(p=>p.id===id);
+  const swapIdx = idx+dir;
+  if(idx<0 || swapIdx<0 || swapIdx>=projectsCache.length) return;
+  const a=projectsCache[idx], b=projectsCache[swapIdx];
+  const aOrder=a.sort_order, bOrder=b.sort_order;
+  await Promise.all([
+    sb.from('projects').update({sort_order:bOrder}).eq('id',a.id),
+    sb.from('projects').update({sort_order:aOrder}).eq('id',b.id)
+  ]);
+  await loadProjects(); populateProjectSelect();
+}
+async function togglePin(id){
+  const p=projectsCache.find(x=>x.id===id); if(!p) return;
+  await sb.from('projects').update({featured:!p.featured}).eq('id',id);
+  await loadProjects(); populateProjectSelect();
+}
+function editProject(id){
+  const p=projectsCache.find(x=>x.id===id); if(!p) return;
+  document.getElementById('project-form-title').textContent='Edit project';
+  document.getElementById('project-id-field').value=p.id;
+  document.getElementById('p-name').value=p.name||'';
+  document.getElementById('p-tagline').value=p.tagline||'';
+  document.getElementById('p-description').value=p.description||'';
+  document.getElementById('p-tag').value=p.tag||'';
+  document.getElementById('p-repo').value=p.repo||'';
+  document.getElementById('p-live').value=p.live||'';
+  document.getElementById('p-stack').value=(p.stack||[]).join(', ');
+  document.getElementById('p-domain').value=p.domain||'other';
+  document.getElementById('p-features').value=(p.features||[]).join('\\n');
+  document.getElementById('p-featured').checked=!!p.featured;
+  window.scrollTo({top:document.getElementById('project-form-title').offsetTop-20,behavior:'smooth'});
+}
+function clearProjectForm(){
+  document.getElementById('project-form-title').textContent='Add a project';
+  ['project-id-field','p-name','p-tagline','p-description','p-tag','p-repo','p-live','p-stack','p-features'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-domain').value='other';
+  document.getElementById('p-featured').checked=false;
+}
+document.getElementById('project-cancel-btn').onclick=clearProjectForm;
+document.getElementById('project-save-btn').onclick=async ()=>{
+  const statusEl=document.getElementById('project-status');
+  const name=document.getElementById('p-name').value.trim();
+  if(!name){ statusEl.textContent='Name is required.'; statusEl.className='status err'; return; }
+  const existingId=document.getElementById('project-id-field').value;
+  const id = existingId || slugify(name);
+  const row={
+    id, name,
+    tagline:document.getElementById('p-tagline').value.trim(),
+    description:document.getElementById('p-description').value.trim(),
+    tag:document.getElementById('p-tag').value.trim(),
+    repo:document.getElementById('p-repo').value.trim()||null,
+    live:document.getElementById('p-live').value.trim()||null,
+    stack:csvToArray(document.getElementById('p-stack').value),
+    domain:document.getElementById('p-domain').value,
+    features:linesToArray(document.getElementById('p-features').value),
+    featured:document.getElementById('p-featured').checked,
+    sort_order: existingId ? (projectsCache.find(p=>p.id===existingId)?.sort_order ?? 0) : (projectsCache.length ? Math.max(...projectsCache.map(p=>p.sort_order||0))+10 : 0)
+  };
+  statusEl.textContent='Saving...'; statusEl.className='status';
+  const { error } = await sb.from('projects').upsert(row);
+  if(error){ statusEl.textContent=error.message; statusEl.className='status err'; return; }
+  statusEl.textContent='Saved.'; statusEl.className='status ok';
+  clearProjectForm(); await loadProjects(); populateProjectSelect();
+};
+async function deleteProject(id){
+  if(!confirm('Delete this project? This also removes its screenshots and video link.')) return;
+  await sb.from('projects').delete().eq('id',id);
+  await sb.from('project_media').delete().eq('project_id',id);
+  try{
+    const { data:files } = await sb.storage.from('project-media').list(id);
+    if(files && files.length) await sb.storage.from('project-media').remove(files.map(f=>`${id}/${f.name}`));
+  }catch(e){ console.warn(e); }
+  await loadProjects(); populateProjectSelect();
+}
+
+/* ============ EXPERIENCE ============ */
+let experienceCache=[];
+async function loadExperience(){
+  const { data, error } = await sb.from('experience').select('*').order('sort_order',{ascending:true});
+  experienceCache = (!error && data) ? data : [];
+  const list=document.getElementById('experience-list');
+  list.innerHTML = experienceCache.length ? experienceCache.map(e=>`
+    <div class="row-card">
+      <div class="info"><h4>${e.role}</h4><span>${e.company||''}${e.meta?' · '+e.meta:''}</span></div>
+      <div class="actions">
+        <button class="secondary" data-edit="${e.id}">Edit</button>
+        <button class="danger" data-del="${e.id}">Delete</button>
+      </div>
+    </div>`).join('') : '<p style="color:var(--muted);font-size:13px;">No entries yet.</p>';
+  list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editExperience(b.dataset.edit));
+  list.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteExperience(b.dataset.del));
+}
+function editExperience(id){
+  const e=experienceCache.find(x=>x.id===id); if(!e) return;
+  document.getElementById('exp-form-title').textContent='Edit entry';
+  document.getElementById('e-id-field').value=e.id;
+  document.getElementById('e-role').value=e.role||'';
+  document.getElementById('e-company').value=e.company||'';
+  document.getElementById('e-meta').value=e.meta||'';
+  document.getElementById('e-bullets').value=(e.bullets||[]).join('\\n');
+  window.scrollTo({top:document.getElementById('exp-form-title').offsetTop-20,behavior:'smooth'});
+}
+function clearExpForm(){
+  document.getElementById('exp-form-title').textContent='Add an experience entry';
+  ['e-id-field','e-role','e-company','e-meta','e-bullets'].forEach(id=>document.getElementById(id).value='');
+}
+document.getElementById('exp-cancel-btn').onclick=clearExpForm;
+document.getElementById('exp-save-btn').onclick=async ()=>{
+  const statusEl=document.getElementById('exp-status');
+  const role=document.getElementById('e-role').value.trim();
+  if(!role){ statusEl.textContent='Role is required.'; statusEl.className='status err'; return; }
+  const existingId=document.getElementById('e-id-field').value;
+  const id = existingId || uid();
+  const row={
+    id, role,
+    company:document.getElementById('e-company').value.trim(),
+    meta:document.getElementById('e-meta').value.trim(),
+    bullets:linesToArray(document.getElementById('e-bullets').value),
+    sort_order: existingId ? (experienceCache.find(e=>e.id===existingId)?.sort_order ?? 0) : (experienceCache.length ? Math.max(...experienceCache.map(e=>e.sort_order||0))+10 : 0)
+  };
+  statusEl.textContent='Saving...'; statusEl.className='status';
+  const { error } = await sb.from('experience').upsert(row);
+  if(error){ statusEl.textContent=error.message; statusEl.className='status err'; return; }
+  statusEl.textContent='Saved.'; statusEl.className='status ok';
+  clearExpForm(); await loadExperience();
+};
+async function deleteExperience(id){
+  if(!confirm('Delete this experience entry?')) return;
+  await sb.from('experience').delete().eq('id',id);
+  await loadExperience();
+}
+
+/* ============ SKILLS ============ */
+let skillsCache=[];
+async function loadSkills(){
+  const { data, error } = await sb.from('skills').select('*').order('sort_order',{ascending:true});
+  skillsCache = (!error && data) ? data : [];
+  const list=document.getElementById('skills-list');
+  list.innerHTML = skillsCache.length ? skillsCache.map(s=>`
+    <div class="row-card">
+      <div class="info"><h4>${s.name}</h4><span>${s.category||''} · ${s.icon_key}</span></div>
+      <div class="actions">
+        <button class="secondary" data-edit="${s.id}">Edit</button>
+        <button class="danger" data-del="${s.id}">Delete</button>
+      </div>
+    </div>`).join('') : '<p style="color:var(--muted);font-size:13px;">No skills yet.</p>';
+  list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editSkill(b.dataset.edit));
+  list.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteSkill(b.dataset.del));
+}
+function editSkill(id){
+  const s=skillsCache.find(x=>x.id===id); if(!s) return;
+  document.getElementById('skill-form-title').textContent='Edit skill';
+  document.getElementById('s-id-field').value=s.id;
+  document.getElementById('s-name').value=s.name||'';
+  document.getElementById('s-category').value=s.category||'';
+  document.getElementById('s-icon').value=s.icon_key||'generic';
+  window.scrollTo({top:document.getElementById('skill-form-title').offsetTop-20,behavior:'smooth'});
+}
+function clearSkillForm(){
+  document.getElementById('skill-form-title').textContent='Add a skill';
+  document.getElementById('s-id-field').value='';
+  document.getElementById('s-name').value='';
+  document.getElementById('s-category').value='';
+  document.getElementById('s-icon').value='generic';
+}
+document.getElementById('skill-cancel-btn').onclick=clearSkillForm;
+document.getElementById('skill-save-btn').onclick=async ()=>{
+  const statusEl=document.getElementById('skill-status');
+  const name=document.getElementById('s-name').value.trim();
+  if(!name){ statusEl.textContent='Name is required.'; statusEl.className='status err'; return; }
+  const existingId=document.getElementById('s-id-field').value;
+  const id = existingId || slugify(name)+'-'+uid().slice(0,4);
+  const row={
+    id, name,
+    category:document.getElementById('s-category').value.trim(),
+    icon_key:document.getElementById('s-icon').value,
+    sort_order: existingId ? (skillsCache.find(s=>s.id===existingId)?.sort_order ?? 0) : (skillsCache.length ? Math.max(...skillsCache.map(s=>s.sort_order||0))+10 : 0)
+  };
+  statusEl.textContent='Saving...'; statusEl.className='status';
+  const { error } = await sb.from('skills').upsert(row);
+  if(error){ statusEl.textContent=error.message; statusEl.className='status err'; return; }
+  statusEl.textContent='Saved.'; statusEl.className='status ok';
+  clearSkillForm(); await loadSkills();
+};
+async function deleteSkill(id){
+  if(!confirm('Delete this skill?')) return;
+  await sb.from('skills').delete().eq('id',id);
+  await loadSkills();
+}
+
+/* ============ MEDIA (screenshots + video) ============ */
+const projectSelect=document.getElementById('project-select');
+const shotGrid=document.getElementById('shot-grid');
+const shotStatus=document.getElementById('shot-status');
+const videoUrlInput=document.getElementById('video-url');
+const videoStatus=document.getElementById('video-status');
+
+function populateProjectSelect(){
+  projectSelect.innerHTML = projectsCache.length
+    ? projectsCache.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')
+    : '<option value="">Add a project first</option>';
+  if(projectsCache.length) loadMediaForSelected();
+}
+projectSelect.onchange = loadMediaForSelected;
+
+async function getMediaRow(projectId){
+  const { data, error } = await sb.from('project_media').select('*').eq('project_id',projectId).maybeSingle();
+  if(error){ console.warn(error); return null; }
+  return data;
+}
+async function loadMediaForSelected(){
+  shotStatus.textContent=''; videoStatus.textContent='';
+  const id=projectSelect.value;
+  if(!id){ shotGrid.innerHTML=''; videoUrlInput.value=''; return; }
+  const row=await getMediaRow(id);
+  videoUrlInput.value = row?.video_url || '';
+  renderShots(row?.screenshots || []);
+}
+function renderShots(screenshots){
+  if(!screenshots.length){ shotGrid.innerHTML='<p style="color:var(--muted);font-size:13px;">No screenshots yet.</p>'; return; }
+  shotGrid.innerHTML = screenshots.map((s,i)=>`
+    <div class="shot"><img src="${s.url}" alt=""><button data-idx="${i}" class="del-shot">×</button></div>`).join('');
+  shotGrid.querySelectorAll('.del-shot').forEach(btn=>{ btn.onclick = ()=> deleteShot(parseInt(btn.dataset.idx,10)); });
+}
+document.getElementById('shot-upload-btn').onclick = async ()=>{
+  const id=projectSelect.value;
+  if(!id){ shotStatus.textContent='Add a project first.'; shotStatus.className='status err'; return; }
+  const fileInput=document.getElementById('shot-file');
+  const file=fileInput.files[0];
+  if(!file){ shotStatus.textContent='Choose an image first.'; shotStatus.className='status err'; return; }
+  shotStatus.textContent='Uploading...'; shotStatus.className='status';
+  const path = `${id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\\-_]/g,'_')}`;
+  const { error: upErr } = await sb.storage.from('project-media').upload(path, file);
+  if(upErr){ shotStatus.textContent=upErr.message; shotStatus.className='status err'; return; }
+  const { data: pub } = sb.storage.from('project-media').getPublicUrl(path);
+  const row = await getMediaRow(id);
+  const screenshots = row?.screenshots || [];
+  screenshots.push({ path, url: pub.publicUrl });
+  const { error: saveErr } = await sb.from('project_media')
+    .upsert({ project_id:id, screenshots, video_url: row?.video_url || null, updated_at: new Date().toISOString() });
+  if(saveErr){ shotStatus.textContent=saveErr.message; shotStatus.className='status err'; return; }
+  shotStatus.textContent='Uploaded.'; shotStatus.className='status ok'; fileInput.value='';
+  renderShots(screenshots);
+};
+async function deleteShot(idx){
+  const id=projectSelect.value;
+  const row = await getMediaRow(id);
+  const screenshots = row?.screenshots || [];
+  const target = screenshots[idx];
+  if(!target) return;
+  screenshots.splice(idx,1);
+  await sb.storage.from('project-media').remove([target.path]);
+  const { error } = await sb.from('project_media')
+    .upsert({ project_id:id, screenshots, video_url: row?.video_url || null, updated_at: new Date().toISOString() });
+  if(error){ shotStatus.textContent=error.message; shotStatus.className='status err'; return; }
+  renderShots(screenshots);
+}
+document.getElementById('video-save-btn').onclick = async ()=>{
+  const id=projectSelect.value;
+  if(!id){ videoStatus.textContent='Add a project first.'; videoStatus.className='status err'; return; }
+  const url=videoUrlInput.value.trim();
+  const row = await getMediaRow(id);
+  videoStatus.textContent='Saving...'; videoStatus.className='status';
+  const { error } = await sb.from('project_media')
+    .upsert({ project_id:id, screenshots: row?.screenshots || [], video_url: url || null, updated_at: new Date().toISOString() });
+  if(error){ videoStatus.textContent=error.message; videoStatus.className='status err'; return; }
+  videoStatus.textContent='Saved.'; videoStatus.className='status ok';
+};
+document.getElementById('video-clear-btn').onclick = async ()=>{
+  videoUrlInput.value='';
+  document.getElementById('video-save-btn').click();
+};
+
+checkSession();
+</script>
+</body>
+</html>
